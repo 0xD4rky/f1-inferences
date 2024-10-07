@@ -1,0 +1,13 @@
+train: 'det/data/train/images'
+val: det/data/val/images
+test: det/data/test/images
+
+nc: 3
+names: ['head', 'helmet', 'person']
+
+roboflow:
+  workspace: darkys
+  project: hard-hat-sample-ty47y
+  version: 2
+  license: Public Domain
+  url: https://app.roboflow.com/darkys/hard-hat-sample-ty47y/2
