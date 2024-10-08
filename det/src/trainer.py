@@ -42,3 +42,4 @@ class YOLO_trainer:
             1: 'helmet',
             2: 'person'
         }
+        0
