@@ -10,6 +10,7 @@ class YOLO_trainer:
                  train_path: str,
                  val_path: str,
                  test_path: str,
+                 yaml_path: str,
                  model_size: str = 'm',
                  project_name: str = 'safety'):
         
@@ -27,6 +28,7 @@ class YOLO_trainer:
         self.train_path = Path(train_path)
         self.val_path = Path(val_path)
         self.test_path = Path(test_path)
+        self.yaml_path = Path(yaml_path)
         self.model_size = model_size
         self.project_name = project_name
 
@@ -68,4 +70,24 @@ class YOLO_trainer:
             **kwargs: Additional arguments to pass to the YOLO trainer
         """
 
+        if self.model is None:
+            self.initialize()
+
+        try:
+
+            self.results = self.model.train(
+                data = str(self.yaml_path),
+                epochs = epochs,
+                imgsz = imgsz,
+                bathc = batch_size,
+                name = self.project_name,
+                **kwargs
+            )
+            self.logger.info("Training completed successfully")
+        except Exception as e:
+            self.logger.error(f'Error during training: {e}')
+            raise
+
         
+        
+
