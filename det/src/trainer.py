@@ -42,4 +42,30 @@ class YOLO_trainer:
             1: 'helmet',
             2: 'person'
         }
-        0
+    
+    def initialize(self) -> None:
+
+        """Initialize the YOLOv8 model."""
+        try:
+            self.model = YOLO(f'yolov8{self.model_size}.pt')
+            self.logger.info(f"Initialized YOLOv8{self.model_size} model")
+        except Exception as e:
+            self.logger.error(f"Error initializing model: {e}")
+            raise
+    
+    def train(self, 
+              epochs: int = 100,
+              imgsz: int = 640,
+              batch_size: int = 16,
+              **kwargs) -> None:
+        """
+        Train the model.
+        
+        Args:
+            epochs (int): Number of training epochs
+            imgsz (int): Input image size
+            batch_size (int): Batch size
+            **kwargs: Additional arguments to pass to the YOLO trainer
+        """
+
+        
