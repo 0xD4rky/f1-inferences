@@ -88,6 +88,44 @@ class YOLO_trainer:
             self.logger.error(f'Error during training: {e}')
             raise
 
+    def validate(self) -> Optional[Dict]:
+        "validates the training model"
+        if self.model is None:
+            self.logger.error("No trained model available. Please train a model first")
+            return None
         
+        try:
+            metrics = self.model.eval()
+            self.logger.info("Validation completed successfully!")
+            return metrics
+        except Exception as e:
+
+            self.logger.error(f"Error during validation: {e}")
+            raise
+    
+    def export_model(self, format: str = 'onnx') -> Path:
+        """
+        Export the trained model to a specific format.
+        
+        Args:
+            format (str): Format to export to ('onnx', 'torchscript', etc.)
+        
+        Returns:
+            Path: Path to the exported model
+        """
+        if self.model is None:
+            self.logger.error("No trained model available. Please train first.")
+            return None
+        
+        try:
+            exported_model = self.model.export(format=format)
+            self.logger.info(f"Model exported successfully in {format} format")
+            return exported_model
+        except Exception as e:
+            self.logger.error(f"Error exporting model: {e}")
+            raise
+
+        
+
         
 
