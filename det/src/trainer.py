@@ -79,7 +79,7 @@ class YOLO_trainer:
                 data = str(self.yaml_path),
                 epochs = epochs,
                 imgsz = imgsz,
-                bathc = batch_size,
+                batch = batch_size,
                 name = self.project_name,
                 **kwargs
             )
@@ -124,8 +124,29 @@ class YOLO_trainer:
         except Exception as e:
             self.logger.error(f"Error exporting model: {e}")
             raise
-
+    
+    def predict(self, 
+                source: Union[str, Path, List[str]], 
+                conf: float = 0.25) -> None:
+        """
+        Run prediction on images or video.
         
+        Args:
+            source: Source for prediction (image/video path or directory)
+            conf: Confidence threshold
+        """
+        if self.model is None:
+            self.logger.error("No trained model available. Please train first.")
+            return None
+        
+        try:
+            results = self.model.predict(source=source, conf=conf)
+            self.logger.info("Prediction completed successfully")
+            return results
+        except Exception as e:
+            self.logger.error(f"Error during prediction: {e}")
+            raise
+
 
         
 
